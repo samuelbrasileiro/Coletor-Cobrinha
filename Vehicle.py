@@ -33,7 +33,7 @@ class Vehicle():
     def isFoodLocated(self):
         return self._isFoodLocated
     
-    def drive(self):
+    def seek(self):
         # A vector pointing from the location to the target
         desired = self.foodPosition - self.position
 
@@ -47,7 +47,7 @@ class Vehicle():
     def arrive(self):
         self._isFoodLocated = False
     
-        # A method that calculates a steering force towards a target
+    # A method that calculates a steering force towards a target
     # STEER = DESIRED MINUS VELOCITY
     def boundaries(self):
         d = 0

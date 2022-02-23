@@ -27,7 +27,7 @@ class ViewModel():
         
     def update(self):
         if self.vehicle.isFoodLocated():
-            self.vehicle.drive()
+            self.vehicle.seek()
         else:
             self.vehicle.locateFood(self.food)
         
@@ -36,6 +36,7 @@ class ViewModel():
         if self.isVehicleCloseEnoughToFood():
             self.collectFood()
         self.display()
+    
     def isVehicleCloseEnoughToFood(self):
         return eucledean(self.vehicle.position, self.food.position) < (self.food.r + self.vehicle.r - 4)
     
