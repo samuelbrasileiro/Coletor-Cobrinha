@@ -2,12 +2,10 @@
 
 class Food():
 
-    def __init__(self):
+    def __init__(self, position):
         self.acceleration = PVector(0, 0)
         self.velocity = PVector(0, 0)
-        x = random(width)
-        y = random(height)
-        self.position = PVector(x, y)
+        self.position = position
         self.r = 6
         self.maxspeed = 1.0
         self.maxforce = 0.01

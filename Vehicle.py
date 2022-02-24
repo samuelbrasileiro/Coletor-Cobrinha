@@ -33,6 +33,9 @@ class Vehicle():
     def isFoodLocated(self):
         return self._isFoodLocated
     
+    def getPosition(self):
+        return self.position
+    
     def seek(self):
         # A vector pointing from the location to the target
         desired = self.foodPosition - self.position
