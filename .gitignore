@@ -1,0 +1,5 @@
+# Java compiled files
+*.class
+
+# Python cache
+__pycache__
