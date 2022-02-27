@@ -9,6 +9,7 @@ class ViewModel():
     
     def __init__(self):
         self.count = 0
+        self.tileSize = 16
         self.makeMap()
         self.makeVehicle()
         self.makeFood()
@@ -22,10 +23,10 @@ class ViewModel():
         self.vehicle = Vehicle(width / 2, height / 2)
     
     def makeMap(self):
-        self.map = Map(16, 0.1)
+        self.map = Map(self.tileSize, 0.1)
         
     def makeViewer(self):    
-        self.viewer = PathViewer(self.map)
+        self.viewer = PathViewer(self.tileSize)
     
     def collectFood(self):
         self.updateScore()
