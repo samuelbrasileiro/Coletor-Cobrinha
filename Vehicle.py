@@ -2,23 +2,24 @@
 
 class Vehicle():
 
-    def __init__(self, x, y):
+    def __init__(self, position, tileSize):
         self.acceleration = PVector(0, 0)
         self.velocity = PVector(0, 0)
-        self.position = PVector(x, y)
+        self.position = position
+        self.tileSize = tileSize
         self.r = 6
-        self.maxspeed = 5
+        self.maxspeed = 1
         self.maxforce = 0.2
-        self._isFoodLocated = False
         self.img = loadImage("snake.png")
         
     # Method to update location
-    def update(self):
+    def update(self, weight):
         # Update velocity
+        print(weight)
         self.velocity.add(self.acceleration)
         # Limit speed
         self.velocity.limit(self.maxspeed)
-        self.position.add(self.velocity)
+        self.position.add(self.velocity/weight)
         # Reset accelerationelertion to 0 each cycle
         self.acceleration.mult(0)
 
@@ -26,62 +27,40 @@ class Vehicle():
         # We could add mass here if we want A = F / M
         self.acceleration.add(force)
     
-    def locateFood(self, food):
-        self.foodPosition = food.position
-        self._isFoodLocated = True
-    
-    def isFoodLocated(self):
-        return self._isFoodLocated
-    
     def getPosition(self):
         return self.position
     
-    def seek(self):
-        # A vector pointing from the location to the target
-        desired = self.foodPosition - self.position
-
-        # Scale to maximum speed
-        desired.setMag(self.maxspeed)
-
-        steer = desired - self.velocity
-        steer.limit(self.maxforce)  # Limit to maximum steering force
-        self.applyForce(steer)
-        
-    def arrive(self):
-        self._isFoodLocated = False
-    
     # A method that calculates a steering force towards a target
     # STEER = DESIRED MINUS VELOCITY
-    def boundaries(self):
-        d = 0
-        desired = None
+    def arrive(self, target):
+        # A vector pointing from the location to the target
+        desired = target - self.position
+        d = desired.mag()
 
-        if self.position.x < d:
-            desired = PVector(self.maxspeed, self.velocity.y)
-        elif self.position.x > width - d:
-            desired = PVector(-self.maxspeed, self.velocity.y)
+        # Scale with arbitrary damping within 100 pixels
+        if (d < 100/self.tileSize):
+            m = map(d, 0, 100, 0, self.maxspeed)
+            desired.setMag(m)
+        else:
+            desired.setMag(self.maxspeed)
 
-        if self.position.y < d:
-            desired = PVector(self.velocity.x, self.maxspeed)
-        elif self.position.y > height - d:
-            desired = PVector(self.velocity.x, -self.maxspeed)
+        # Steering = Desired minus velocity
+        steer = desired - self.velocity
+        steer.limit(self.maxforce)  # Limit to maximum steering force
 
-        if desired:
-            desired.normalize()
-            desired.mult(self.maxspeed)
-            steer = desired - self.velocity
-            steer.limit(self.maxforce)
-            self.applyForce(steer)
+        self.applyForce(steer)
     
     def display(self):
         # Draw a triangle rotated in the direction of velocity
-        theta = self.velocity.heading()# + PI / 2
+        theta = self.velocity.heading() + PI / 2
         fill(127)
-        noStroke()
+        stroke(200)
         strokeWeight(1)
         with pushMatrix():
-            translate(self.position.x, self.position.y)
+            translate(self.position.x + self.tileSize/2, self.position.y + self.tileSize/2)
             rotate(theta)
             beginShape()
-            image(self.img, (-self.r ** 2 ) / 2, (-self.r ** 2 ) / 2, self.r ** 2, self.r ** 2)
+            vertex(0, -self.r * 2)
+            vertex(-self.r, self.r * 2)
+            vertex(self.r, self.r * 2)
             endShape(CLOSE)
