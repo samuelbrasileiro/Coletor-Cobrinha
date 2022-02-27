@@ -6,8 +6,8 @@ class PathViewer:
     This class has useful methods to draw the chosen path by many algorithms
     """
     
-    def __init__(self, map):
-        self.map = map
+    def __init__(self, tileSize):
+        self.tileSize = tileSize
         self.newColors = {}
         
     def paint(self, x, y, newColor):
@@ -40,7 +40,7 @@ class PathViewer:
     def display(self):
         for (i, j) in self.newColors.keys():
             fill(self.newColors[(i, j)])
-            rect(i * self.map.tileSize, j * self.map.tileSize, self.map.tileSize, self.map.tileSize)
+            rect(i * self.tileSize, j * self.tileSize, self.tileSize, self.tileSize)
         
             
         
