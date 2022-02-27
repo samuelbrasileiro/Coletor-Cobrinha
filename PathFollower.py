@@ -12,9 +12,9 @@ class PathFollower:
         self.current += 1
     
     def getTarget(self):
-        if not self.didEnded():
+        if not self.didFinish():
             (x, y) = self.path[self.current]
             return PVector(x, y) * self.tileSize
     
-    def didEnded(self):
+    def didFinish(self):
         return self.current == self.count

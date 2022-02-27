@@ -19,11 +19,12 @@ class ViewModel():
         self.viewer.paintPath(self.follower.path)
             
     def makeFood(self):
-        position = self.map.generateTargetPosition(self.vehicle.getPosition())
+        position = self.map.generateValidPosition()
         self.food = Food(position, self.tileSize)
         
     def makeVehicle(self):
-        self.vehicle = Vehicle(width / 2, height / 2, self.tileSize)
+        position = self.map.generateValidPosition()
+        self.vehicle = Vehicle(position, self.tileSize)
     
     def makeMap(self):
         self.map = Map(self.tileSize, 0.1)
@@ -47,7 +48,7 @@ class ViewModel():
         print("Score: " + str(self.count))
         
     def update(self):
-        if self.follower.didEnded():
+        if self.follower.didFinish():
             self.collectFood()
         target = self.follower.getTarget()
         weight = self.map.getTile(self.vehicle.getPosition()/self.tileSize)

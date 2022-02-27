@@ -48,15 +48,17 @@ class Map():
     def getTile(self, position):
         return self.tiles[floor(position.y)][floor(position.x)]
 
-    def generateTargetPosition(self, origin):
-        origin = origin/self.tileSize
-        
-        target = self.__randomTile()
-        while self.__isUnreacheable(origin, target):
-            target = self.__randomTile()
+    def generateValidPosition(self):
+        target = self.getValidTile()
         return target*self.tileSize
     
-    def __isUnreacheable(self, origin, target):
+    def getValidTile(self):
+        target = self.__randomTile()
+        while self.isBlocked(target):
+            target = self.__randomTile()
+        return target
+            
+    def isBlocked(self, target):
         return self.getTile(target) == Terrain.tree
     
     def __randomTile(self):

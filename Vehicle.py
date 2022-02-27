@@ -2,10 +2,10 @@
 
 class Vehicle():
 
-    def __init__(self, x, y, tileSize):
+    def __init__(self, position, tileSize):
         self.acceleration = PVector(0, 0)
         self.velocity = PVector(0, 0)
-        self.position = PVector(x, y)
+        self.position = position
         self.tileSize = tileSize
         self.r = 6
         self.maxspeed = 1
