@@ -14,6 +14,7 @@ class Map():
         self.printMap()
         
     def display(self):
+        noStroke()
         for i in range(self.columns):
             for j in range(self.rows):
                 fill(self.getColor(i, j))
@@ -46,8 +47,7 @@ class Map():
     
     def getTile(self, position):
         return self.tiles[floor(position.y)][floor(position.x)]
-    
-    #CONSIDERANDO QUE ORIGEM NAO TA ESCALONADA
+
     def generateTargetPosition(self, origin):
         origin = origin/self.tileSize
         
