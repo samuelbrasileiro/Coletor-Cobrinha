@@ -28,6 +28,20 @@ class PathViewer:
         """
         self.newColors[(x, y)] = PATH_COLOR
         
+    def paintPath(self, path):
+        """
+        Paints a list of nodes with default color for path nodes
+        """
+        for (x, y) in path:
+            self.paintPathNode(x, y)
+            
+    def paintPathWithColor(self, path, pathColor):
+        """
+        Paints a list of nodes with specified color
+        """
+        for (x, y) in path:
+            self.paint(x, y, pathColor)
+        
     def restoreColor(self, x, y):
         if (x, y) in self.newColors:
             self.newColors.pop((x,y))
