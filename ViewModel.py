@@ -3,6 +3,7 @@
 from Food import Food
 from Vehicle import Vehicle
 from Map import Map
+from PathViewer import PathViewer
 
 class ViewModel():
     
@@ -11,6 +12,7 @@ class ViewModel():
         self.makeMap()
         self.makeVehicle()
         self.makeFood()
+        self.makeViewer()
             
     def makeFood(self):
         position = self.map.generateTargetPosition(self.vehicle.getPosition())
@@ -21,6 +23,9 @@ class ViewModel():
     
     def makeMap(self):
         self.map = Map(16, 0.1)
+        
+    def makeViewer(self):    
+        self.viewer = PathViewer(self.map)
     
     def collectFood(self):
         self.updateScore()
@@ -48,6 +53,7 @@ class ViewModel():
     
     def display(self):
         self.map.display()
+        self.viewer.display()
         self.food.display()
         self.vehicle.display()
 
