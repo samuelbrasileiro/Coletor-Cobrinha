@@ -11,12 +11,13 @@ class ViewModel():
         self.count = 0
         self.tileSize = 16
         self.makeMap()
+        self.makeViewer()
         self.makeVehicle()
         self.makeFood()
-        self.makeViewer()
             
     def makeFood(self):
         position = self.map.generateTargetPosition(self.vehicle.getPosition())
+        self.viewer.resetColors()
         self.food = Food(position)
         
     def makeVehicle(self):

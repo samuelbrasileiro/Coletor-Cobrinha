@@ -11,7 +11,7 @@ class Map():
         
     def __makeTiles(self):
         self.tiles = [[self.getTerrain(i, j) for i in range(self.columns)] for j in range(self.rows)]
-        printMap()
+        self.printMap()
         
     def display(self):
         for i in range(self.columns):
@@ -62,7 +62,7 @@ class Map():
     def __randomTile(self):
         return PVector(floor(random(self.columns)), floor(random(self.rows)))
     
-        def printMap(self):
+    def printMap(self):
         s = [[str(e) for e in row] for row in self.tiles]
         lens = [max(map(len, col)) for col in zip(*s)]
         fmt = '\t'.join('{{:{}}}'.format(x) for x in lens)
