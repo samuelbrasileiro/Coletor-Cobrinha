@@ -57,9 +57,28 @@ class Map():
         while self.isBlocked(target):
             target = self.__randomTile()
         return target
-            
+    
+    def gridPositionFromPosition(self, position):
+        return int(position.y // self.tileSize), int(position.x // self.tileSize)
+    
+    def getNeighbours(self, row, col):
+        neighbours = []
+        for i in range(-1, 2, 1):
+            for j in range(-1, 2, 1):
+                if i == 0 and j == 0:
+                    continue
+                checkX = col + i
+                checkY = row + j
+                
+                if checkX >= 0 and checkX < self.columns and checkY >= 0 and checkY < self.rows:
+                    neighbours.append((checkX, checkY))
+        return neighbours
+                
     def isBlocked(self, target):
         return self.getTile(target) == Terrain.tree
+    
+    def isTileBlocked(self, row, col):
+        return self.tiles[row][col] == Terrain.tree
     
     def __randomTile(self):
         return PVector(floor(random(self.columns)), floor(random(self.rows)))
