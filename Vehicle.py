@@ -15,7 +15,6 @@ class Vehicle():
     # Method to update location
     def update(self, weight):
         # Update velocity
-        print(weight)
         self.velocity.add(self.acceleration)
         # Limit speed
         self.velocity.limit(self.maxspeed)
