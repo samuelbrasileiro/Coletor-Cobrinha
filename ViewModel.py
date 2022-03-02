@@ -5,6 +5,7 @@ from Vehicle import Vehicle
 from Map import Map
 from PathViewer import PathViewer
 from PathFollower import PathFollower
+from AStar import AStar
 
 class ViewModel():
     
@@ -15,8 +16,7 @@ class ViewModel():
         self.makeViewer()
         self.makeVehicle()
         self.makeFood()
-        self.makeFollower()
-        self.viewer.paintPath(self.follower.path)
+        self.makeFollower(self.vehicle.position, self.food.position)
             
     def makeFood(self):
         position = self.map.generateValidPosition()
@@ -32,16 +32,16 @@ class ViewModel():
     def makeViewer(self):    
         self.viewer = PathViewer(self.tileSize)
     
-    def makeFollower(self):
-        path = [(20,10), (21,10), (22,10), (22,11), (22,12), (22,13), (22,14), (22,15), (22,16)]
+    def makeFollower(self, startPos, targetPos):
+        pathFinder = AStar(self.map, self.viewer)
+        path = pathFinder.findPath(startPos, targetPos)
         self.follower = PathFollower(path, self.tileSize)
         
     def collectFood(self):
         self.updateScore()
-        self.makeFood()
-        self.makeFollower()
+        self.makeFood()        
         self.viewer.resetColors()
-        self.viewer.paintPath(self.follower.path)
+        self.makeFollower(self.vehicle.position, self.food.position)
     
     def updateScore(self):
         self.count += 1
