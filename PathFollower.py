@@ -5,7 +5,6 @@ class PathFollower:
         self.path = path
         self.current = 0
         self.count = len(path)
-        print(self.count)
         self.tileSize = tileSize
     
     def arrive(self):
@@ -15,6 +14,10 @@ class PathFollower:
         if not self.didFinish():
             (x, y) = self.path[self.current]
             return PVector(x, y) * self.tileSize
+    
+    def getTile(self):
+        if not self.didFinish():
+            return self.path[self.current]
     
     def didFinish(self):
         return self.current == self.count

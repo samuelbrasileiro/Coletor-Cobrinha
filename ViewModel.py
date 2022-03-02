@@ -5,15 +5,14 @@ from Vehicle import Vehicle
 from Map import Map
 from PathViewer import PathViewer
 from PathFollower import PathFollower
-from AStar import AStar
-from BFS import BFS
+from Algorithm import Algorithm
 
 class ViewModel():
     
     def __init__(self):
         self.count = 0
         self.tileSize = 32
-        self.waitFrames = 15 # is equal to a .25s wait
+        self.waitFrames = 5 # is equal to a .08s wait
         self.frmCount = 0
         self.makeMap()
         self.makeViewer()
@@ -22,11 +21,11 @@ class ViewModel():
         self.makeFollower(self.vehicle.position, self.food.position)
             
     def makeFood(self):
-        position = self.map.generateValidPosition()
+        position = self.map.getValidTile()
         self.food = Food(position, self.tileSize)
         
     def makeVehicle(self):
-        position = self.map.generateValidPosition()
+        position = self.map.getValidTile()
         self.vehicle = Vehicle(position, self.tileSize)
     
     def makeMap(self):
@@ -36,9 +35,8 @@ class ViewModel():
         self.viewer = PathViewer(self.tileSize)
     
     def makeFollower(self, startPos, targetPos):
-        pathFinder = BFS(self.map, self.viewer)
-        path = pathFinder.findPath(startPos, targetPos)
-        print(path)
+        pathFinder = Algorithm.AStar(self.map, self.viewer)
+        path = pathFinder.findPath((startPos.x, startPos.y), (targetPos.x, targetPos.y))
 
         if (not len(path)):
             self.makeFood()
@@ -70,7 +68,7 @@ class ViewModel():
             if self.follower.didFinish():
                 self.collectFood()
             target = self.follower.getTarget()
-            weight = self.map.getTile(self.vehicle.getPosition()/self.tileSize)
+            weight = self.map.getTile(self.follower.getTile())
             if self.isVehicleCloseEnoughToTarget(target):
                 self.follower.arrive()
             

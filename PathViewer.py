@@ -1,5 +1,5 @@
-EXPLORED_COLOR = color(230, 0, 255)
-PATH_COLOR = color(186, 20, 31, 255)
+EXPLORED_COLOR = color(230, 0, 255, 200)
+PATH_COLOR = color(186, 20, 31, 200)
 
 class PathViewer:
     """

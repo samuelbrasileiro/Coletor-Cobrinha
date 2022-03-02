@@ -46,12 +46,8 @@ class Map():
     def getTiles(self):
         return self.tiles
     
-    def getTile(self, position):
-        return self.tiles[floor(position.y)][floor(position.x)]
-
-    def generateValidPosition(self):
-        target = self.getValidTile()
-        return target*self.tileSize
+    def getTile(self, (x, y)):
+        return self.tiles[y][x]
     
     def getValidTile(self):
         target = self.__randomTile()
@@ -59,8 +55,8 @@ class Map():
             target = self.__randomTile()
         return target
     
-    def gridPositionFromPosition(self, position):
-        return int(position.y // self.tileSize), int(position.x // self.tileSize)
+    def gridPositionFromPosition(self, (x, y)):
+        return int((y + self.tileSize/2) // self.tileSize), int((x + self.tileSize/2) // self.tileSize)
     
     def getNeighbours(self, row, col):
         neighbours = []
@@ -82,7 +78,7 @@ class Map():
         return self.tiles[row][col] == Terrain.tree
     
     def __randomTile(self):
-        return PVector(floor(random(self.columns)), floor(random(self.rows)))
+        return (floor(random(self.columns)), floor(random(self.rows)))
 
     def resetVisited(self):
         self.visited = []
