@@ -5,6 +5,7 @@ class Map():
     def __init__(self, tileSize, scl):
         self.tileSize = tileSize
         self.scl = scl
+        self.visited = []
         self.rows = height/self.tileSize
         self.columns = width/self.tileSize
         self.__makeTiles()
@@ -82,6 +83,9 @@ class Map():
     
     def __randomTile(self):
         return PVector(floor(random(self.columns)), floor(random(self.rows)))
+
+    def resetVisited(self):
+        self.visited = []
     
     def printMap(self):
         s = [[str(e) for e in row] for row in self.tiles]

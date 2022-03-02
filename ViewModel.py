@@ -6,6 +6,7 @@ from Map import Map
 from PathViewer import PathViewer
 from PathFollower import PathFollower
 from AStar import AStar
+from BFS import BFS
 
 class ViewModel():
     
@@ -35,14 +36,23 @@ class ViewModel():
         self.viewer = PathViewer(self.tileSize)
     
     def makeFollower(self, startPos, targetPos):
-        pathFinder = AStar(self.map, self.viewer)
+        pathFinder = BFS(self.map, self.viewer)
         path = pathFinder.findPath(startPos, targetPos)
-        self.follower = PathFollower(path, self.tileSize)
+        print(path)
+
+        if (not len(path)):
+            self.makeFood()
+            self.map.resetVisited()
+            self.makeFollower(self.vehicle.position, self.food.position)
+        else:
+            self.follower = PathFollower(path, self.tileSize)
+        
         
     def collectFood(self):
         self.updateScore()
-        self.makeFood()        
+        self.makeFood() 
         self.viewer.reset()
+        self.map.resetVisited()
         self.makeFollower(self.vehicle.position, self.food.position)        
         self.frmCount = 0
     
