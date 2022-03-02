@@ -57,6 +57,8 @@ class BFS:
 
             (row, col) = current
             if current not in self.visited:
+                row, col = current
+                self.viewer.paintExploredNode(col, row)
                 self.visited.add(current)
                 self.map.visited.append(current)
             
