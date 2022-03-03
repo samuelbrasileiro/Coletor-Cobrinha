@@ -76,7 +76,7 @@ class BFS:
         """
         Backtraces path from target to start
         """
-        (startRow, startCol) = target
+        (startRow, startCol) = start
         (targetRow, targetCol) = target
         path = [(targetCol, targetRow)]
 
