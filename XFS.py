@@ -46,6 +46,8 @@ class XFS(object):
 
             # Stop condition: if the popped item of the container corresponds to the target
             if current == target:
+                row, col = current
+                self.viewer.paintExploredNode(col, row)
                 return self.backtrace(start, target)
 
             (row, col) = current
