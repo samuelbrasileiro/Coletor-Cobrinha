@@ -35,7 +35,7 @@ class ViewModel():
         self.viewer = PathViewer(self.tileSize)
     
     def makeFollower(self, startPos, targetPos):
-        pathFinder = Algorithm.AStar(self.map, self.viewer)
+        pathFinder = Algorithm.Dijkstra(self.map, self.viewer)
         path = pathFinder.findPath((startPos.x, startPos.y), (targetPos.x, targetPos.y))
 
         if (not len(path)):
