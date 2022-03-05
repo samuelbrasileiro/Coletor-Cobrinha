@@ -35,8 +35,9 @@ class ViewModel():
         self.viewer = PathViewer(self.tileSize)
     
     def makeFollower(self, startPos, targetPos):
-        pathFinder = Algorithm.Dijkstra(self.map, self.viewer)
+        pathFinder = Algorithm.Greedy(self.map, self.viewer)
         path = pathFinder.findPath((startPos.x, startPos.y), (targetPos.x, targetPos.y))
+        print(path)
 
         if (not len(path)):
             self.makeFood()

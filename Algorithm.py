@@ -4,13 +4,14 @@ from AStar import AStar
 from BFS import BFS
 from DFS import DFS
 from Dijkstra import Dijkstra
+from Greedy import Greedy
 
 def enum(**enums):
     return type('Enum', (), enums)
 
 global Algorithm 
 
-Algorithm = enum(AStar = AStar, BFS = BFS, DFS = DFS, Dijkstra = Dijkstra)
+Algorithm = enum(AStar = AStar, BFS = BFS, DFS = DFS, Greedy = Greedy, Dijkstra = Dijkstra)
 
 def name(self):
     if self == Algorithm.AStar:
@@ -21,3 +22,5 @@ def name(self):
         return "DFS"
     elif self == Algorithm.Dijkstra:
         return "Dijkstra"
+    elif self == Algorithm.Greedy:
+        return "Greedy"
