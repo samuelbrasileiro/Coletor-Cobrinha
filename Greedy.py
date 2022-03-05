@@ -1,32 +1,4 @@
-class PriorityQueue(object):
-    def __init__(self):
-        self.queue = []
-  
-    def __str__(self):
-        return ' '.join([str(i) for i in self.queue])
-  
-    # for checking if the queue is empty
-    def empty(self):
-        return len(self.queue) == 0
-  
-    # for inserting an element in the queue
-    def put(self, priority, data):
-        self.queue.append([priority, data])
-  
-    # for popping an element based on Priority
-    def get(self):
-        try:
-            min = 0
-            for i in range(0,len(self.queue)):
-                if self.queue[i][0] < self.queue[min][0]:
-                    min = i
-            item = self.queue[min]
-            del self.queue[min]
-            return item
-        except IndexError:
-            print()
-            exit()  
-
+from Container import PriorityQueue
 
 class Greedy():
     """
@@ -70,12 +42,12 @@ class Greedy():
         start = (startRow, startCol)
         
         # Step 1: put the start tile in the container
-        self.container.put(self.distance(start[0],start[1],target[0],target[1]), start)
+        self.container.put(start, self.distance(start[0],start[1],target[0],target[1]))
         self.parent[start] = None
 
         while not self.container.empty():
             # Step 2: take a tile of the container and add it to the visited list of tiles (if not already in there)
-            current = self.container.get()[1]
+            current = self.container.get()
             if current in self.visited:
                 continue
 
@@ -98,7 +70,7 @@ class Greedy():
                 if neighbour not in self.visited and self.isValidNeighbour(neighbourRow, neighbourCol):
                     cost = self.distance(target[0], target[1], neighbour[0], neighbour[1])
                     # Add to the top of the container
-                    self.container.put(cost, neighbour)
+                    self.container.put(neighbour, cost)
                     if neighbour not in self.parent:
                         self.parent[neighbour] = current
         
