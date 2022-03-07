@@ -85,12 +85,12 @@ class PathViewer:
             i = self.indexToPaint
             if i in self.borderAndExplored:
                 border, explored = self.borderAndExplored[i]    
-                for node in explored:
-                    row, col = tuple(node)
-                    self.displayTile(col, row, EXPLORED_COLOR)    
                 for node in border:
                     row, col = tuple(node)
                     self.displayTile(col, row, BORDER_COLOR) 
+                for node in explored:
+                    row, col = tuple(node)
+                    self.displayTile(col, row, EXPLORED_COLOR)
             
         
             
