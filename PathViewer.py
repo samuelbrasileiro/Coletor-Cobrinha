@@ -1,5 +1,6 @@
-EXPLORED_COLOR = color(230, 0, 255, 200)
-PATH_COLOR = color(186, 20, 31, 200)
+EXPLORED_COLOR = color(230, 0, 255, 140)
+BORDER_COLOR = color(230, 0, 255, 180)
+PATH_COLOR = color(186, 20, 31, 255)
 
 class PathViewer:
     """
@@ -10,25 +11,15 @@ class PathViewer:
         self.tileSize = tileSize
         self.colorsToDisplay = {}
         self.path = []
-        self.exploredNodes = []
+        self.borderAndExplored = {}
         self.indexToPaint = -1
-        self.finished = False
-    
+        self.finished = False    
         
-    def paintExploredNode(self, x, y):
+    def paintBorderAndExplored(self, animFrame, borderNodes, exploredNodes):
         """
-        Paints a node with default color for explored nodes
+        Adds border and explored nodes to animation in specified frame
         """
-        if (x, y) not in self.exploredNodes:
-            self.exploredNodes.append((x, y))
-        
-    def paintExplored(self, exploredNodes):
-        """        
-        Paints a list of nodes with default color for explored nodes
-        """
-        self.exploredNodes = exploredNodes
-        for (x, y) in exploredNodes:
-            self.paintExploredNode(x, y)
+        self.borderAndExplored[animFrame] = (borderNodes, exploredNodes)
         
     def paintPathNode(self, x, y):
         """
@@ -66,7 +57,7 @@ class PathViewer:
         self.indexToPaint = -1   
         self.colorsToDisplay = {}
         self.path = []
-        self.exploredNodes = []
+        self.borderAndExplored = {}
             
     def display(self):
         for (i, j) in self.colorsToDisplay.keys():
@@ -81,19 +72,25 @@ class PathViewer:
         Paints one node at time, starting from explored nodes
         """
         self.indexToPaint += 1
-        if self.indexToPaint >= (len(self.path) + len(self.exploredNodes)):
+        if self.indexToPaint >= (len(self.path) + len(self.borderAndExplored)):
             self.finished = True
             return
-        elif self.indexToPaint >= len(self.exploredNodes):
+        elif self.indexToPaint >= len(self.borderAndExplored):
             self.finished = False
-            i = self.indexToPaint - len(self.exploredNodes)
+            i = self.indexToPaint - len(self.borderAndExplored)
             col, row = self.path[i]
             self.displayTile(col, row, PATH_COLOR)
         else:
             self.finished = False
             i = self.indexToPaint
-            col, row = self.exploredNodes[i]
-            self.displayTile(col, row, EXPLORED_COLOR)
+            if i in self.borderAndExplored:
+                border, explored = self.borderAndExplored[i]    
+                for node in explored:
+                    row, col = tuple(node)
+                    self.displayTile(col, row, EXPLORED_COLOR)    
+                for node in border:
+                    row, col = tuple(node)
+                    self.displayTile(col, row, BORDER_COLOR) 
             
         
             
