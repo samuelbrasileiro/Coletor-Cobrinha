@@ -1,4 +1,5 @@
-import copy
+from copy import deepcopy
+
 
 class Node:
     """
@@ -79,7 +80,7 @@ class AStar:
                     currentNode = node
             openSet.remove(currentNode)
             closedSet.append(currentNode)
-            self.viewer.paintBorderAndExplored(frame, copy.deepcopy(openSet), copy.deepcopy(closedSet))
+            self.viewer.paintBorderAndExplored(frame, deepcopy(openSet), deepcopy(closedSet))
             frame += 1
             
             if currentNode == targetNode:

@@ -1,4 +1,5 @@
 from Container import PriorityQueue
+from copy import deepcopy
 
 class Node:
     """
@@ -44,6 +45,13 @@ class Dijkstra(object):
         if (rowPos >= self.map.rows or colPos >= self.map.columns): return False
         
         return True
+    
+    def getExploredNodes(self):
+        result = []
+        for k, v in self.nodes.items():
+            if v.explored:
+                result.append(v.position)
+        return result
         
     def findPath(self, startPos, targetPos):
         # Define start and target tiles
@@ -55,6 +63,8 @@ class Dijkstra(object):
         # Step 1: put the start tile in the container and set its values
         self.nodes[(startRow, startCol)] = Node(None, 0, False, start)
         self.container.put(start, 0)
+        
+        frame = 0
 
         while not self.container.empty():
             # Step 2: take a tile of the container and get its node
@@ -62,19 +72,18 @@ class Dijkstra(object):
             currentNode = self.nodes[current]
 
             if currentNode.explored:
-                continue
+                continue            
+            
+            self.viewer.paintBorderAndExplored(frame, [el[1] for el in list(self.container.elements)], deepcopy(self.getExploredNodes()))
+            frame += 1
 
             # Stop condition: if the popped item of the container corresponds to the target
             if current == target:
-                row, col = current
-                self.viewer.paintExploredNode(col, row)
                 return self.backtrace(start, target)
             
             # If tile hasn't been explored, mark itz explored attribute as True
             (row, col) = current
             if not currentNode.explored:
-                row, col = current
-                self.viewer.paintExploredNode(col, row)
                 currentNode.explored = True
             
             # Step 3: create a list of neighbour tiles and add the ones which hasn't been explored to the top of the container
