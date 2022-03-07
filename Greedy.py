@@ -1,4 +1,5 @@
 from Container import PriorityQueue
+from copy import deepcopy
 
 class Greedy():
     """
@@ -44,12 +45,17 @@ class Greedy():
         # Step 1: put the start tile in the container
         self.container.put(start, self.distance(start[0],start[1],target[0],target[1]))
         self.parent[start] = None
+        
+        frame = 0
 
         while not self.container.empty():
             # Step 2: take a tile of the container and add it to the visited list of tiles (if not already in there)
             current = self.container.get()
             if current in self.visited:
                 continue
+                        
+            self.viewer.paintBorderAndExplored(frame, [el[1] for el in list(self.container.elements)], deepcopy(list(self.visited)))
+            frame += 1
 
             # Stop condition: if the popped item of the container corresponds to the target
             if current == target:
@@ -57,8 +63,6 @@ class Greedy():
 
             (row, col) = current
             if current not in self.visited:
-                row, col = current
-                self.viewer.paintExploredNode(col, row)
                 self.visited.add(current)
                 self.map.visited.append(current)
             
