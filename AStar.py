@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 class Node:
     """
     The node class for A* pathfinding algorithm
@@ -22,6 +25,10 @@ class Node:
     
     def __str__(self):
         return "{0} | ({1}, {2}) | hCost: {3} | gCost: {4} | nodeCost: {5}".format(self.position, self.row, self.col, self.hCost, self.gCost, self.cost)
+    
+    def __iter__(self):
+        yield self.row
+        yield self.col
 
 
 class AStar:
@@ -63,7 +70,8 @@ class AStar:
         
         openSet = []
         closedSet = []
-        openSet.append(startNode)
+        openSet.append(startNode)        
+        frame = 0
         
         while openSet:
             currentNode = openSet[0]
@@ -72,7 +80,8 @@ class AStar:
                     currentNode = node
             openSet.remove(currentNode)
             closedSet.append(currentNode)
-            self.viewer.paintExploredNode(currentNode.col, currentNode.row)
+            self.viewer.paintBorderAndExplored(frame, deepcopy(openSet), deepcopy(closedSet))
+            frame += 1
             
             if currentNode == targetNode:
                 return self.retracePath(startNode, currentNode)
