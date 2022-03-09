@@ -7,8 +7,6 @@ from PathViewer import PathViewer
 from PathFollower import PathFollower
 from Algorithm import Algorithm
 
-global selected_option
-
 class ViewModel():
     
     
