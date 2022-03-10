@@ -38,7 +38,7 @@ class Map():
             return Terrain.water
         elif v < 0.4:
             return Terrain.sand
-        elif v < 0.7:
+        elif v < 0.65:
             return Terrain.grass
         else:
             return Terrain.tree

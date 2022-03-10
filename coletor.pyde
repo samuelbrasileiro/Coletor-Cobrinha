@@ -1,4 +1,5 @@
 
+
 from ViewModel import ViewModel
 
 def setup():
@@ -7,6 +8,7 @@ def setup():
     viewModel = ViewModel()
     noStroke()
     colorMode(HSB)
+
 
 def draw():
     viewModel.update()
@@ -17,3 +19,6 @@ def draw():
     fill(0, 0, 0)
     score = "Score: " + str(viewModel.count)
     text(score, 15, 25)
+    textFont(font, 15)
+    text("1: AStar, 2: Djikstra, 3: BFS, 4: DFS, 5: Guloso", 0, 637)
+    text("Atualmente a busca utiliza : " + viewModel.chosenAlgo, 465, 20)

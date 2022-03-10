@@ -6,7 +6,7 @@ class Food():
         self.acceleration = PVector(0, 0)
         self.velocity = PVector(0, 0)
         self.position = PVector(x * tileSize, y * tileSize)
-        self.r = 6
+        self.r = 10
         self.maxspeed = 1.0
         self.maxforce = 0.01
         self.tileSize = tileSize
@@ -28,7 +28,7 @@ class Food():
     def display(self):
         # Draw a triangle rotated in the direction of velocity
         theta = self.velocity.heading() + PI / 2
-        fill(255, 0, 0)
+        fill(255, 0, 255)
         noStroke()
         strokeWeight(1)
         with pushMatrix():
