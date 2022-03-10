@@ -13,14 +13,17 @@ global Algorithm
 
 Algorithm = enum(AStar = AStar, BFS = BFS, DFS = DFS, Greedy = Greedy, Dijkstra = Dijkstra)
 
-def name(self):
-    if self == Algorithm.AStar:
+def AlgorithmName(algo):
+    if algo == Algorithm.AStar:
         return "AStar"
-    elif self == Algorithm.BFS:
+    elif algo == Algorithm.BFS:
         return "BFS"
-    elif self == Algorithm.DFS:
+    elif algo == Algorithm.DFS:
         return "DFS"
-    elif self == Algorithm.Dijkstra:
+    elif algo == Algorithm.Dijkstra:
         return "Dijkstra"
-    elif self == Algorithm.Greedy:
-        return "Greedy"
+    elif algo == Algorithm.Greedy:
+        return "Guloso"
+
+def AlgorithmLabel():
+    return "1: {}, 2: {}, 3: {}, 4: {}, 5: {}".format(AlgorithmName(Algorithm.AStar), AlgorithmName(Algorithm.Dijkstra),AlgorithmName(Algorithm.BFS), AlgorithmName(Algorithm.DFS), AlgorithmName(Algorithm.Greedy))

@@ -6,6 +6,7 @@ from Map import Map
 from PathViewer import PathViewer
 from PathFollower import PathFollower
 from Algorithm import Algorithm
+from Algorithm import AlgorithmName
 
 class ViewModel():
     
@@ -23,7 +24,7 @@ class ViewModel():
         self.pathFinder = Algorithm.AStar(self.map, self.viewer)
         
         self.newkey = 1
-        self.chosenAlgo = 'AStar'
+        self.chosenAlgo = AlgorithmName(Algorithm.AStar)
             
     def makeFood(self):
         position = self.map.getValidTile()
@@ -43,19 +44,19 @@ class ViewModel():
         
         if(keypressed == '1'):
             self.pathFinder = Algorithm.AStar(self.map, self.viewer)
-            self.chosenAlgo = 'AStar'
+            self.chosenAlgo = AlgorithmName(Algorithm.AStar)
         elif(keypressed == '2'):
             self.pathFinder = Algorithm.Dijkstra(self.map, self.viewer)
-            self.chosenAlgo = 'Djikstra'
+            self.chosenAlgo = AlgorithmName(Algorithm.Dijkstra)
         elif(keypressed == '3'):
             self.pathFinder = Algorithm.BFS(self.map, self.viewer)
-            self.chosenAlgo = 'BFS'
+            self.chosenAlgo = AlgorithmName(Algorithm.BFS)
         elif(keypressed == '4'):
             self.pathFinder = Algorithm.DFS(self.map, self.viewer)
-            self.chosenAlgo = 'DFS'
+            self.chosenAlgo = AlgorithmName(Algorithm.DFS)
         elif(keypressed == '5'):
             self.pathFinder = Algorithm.Greedy(self.map, self.viewer)
-            self.chosenAlgo = 'Guloso'
+            self.chosenAlgo = AlgorithmName(Algorithm.Greedy)
             
         path = self.pathFinder.findPath((startPos.x, startPos.y), (targetPos.x, targetPos.y))
         #print(path)
