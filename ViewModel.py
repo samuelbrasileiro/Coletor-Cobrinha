@@ -19,10 +19,11 @@ class ViewModel():
         self.makeViewer()
         self.makeVehicle()
         self.makeFood()
-        #self.makeFollower(self.vehicle.position, self.food.position)
+        self.makeFollower(self.vehicle.position, self.food.position, '1')
+        self.pathFinder = Algorithm.AStar(self.map, self.viewer)
         
-        self.enteredOnce = False
-        self.chosen = False
+        self.newkey = 1
+        self.chosenAlgo = 'AStar'
             
     def makeFood(self):
         position = self.map.getValidTile()
@@ -33,25 +34,30 @@ class ViewModel():
         self.vehicle = Vehicle(position, self.tileSize)
     
     def makeMap(self):
-        self.map = Map(self.tileSize, 0.1)
+        self.map = Map(self.tileSize, 0.3)
         
     def makeViewer(self):    
         self.viewer = PathViewer(self.tileSize)
     
     def makeFollower(self, startPos, targetPos, keypressed):
         
-        if(key == '1'):
-            pathFinder = Algorithm.AStar(self.map, self.viewer)
-        elif(key == '2'):
-            pathFinder = Algorithm.Dijkstra(self.map, self.viewer)
-        elif(key == '3'):
-            pathFinder = Algorithm.BFS(self.map, self.viewer)
-        elif(key == '4'):
-            pathFinder = Algorithm.DFS(self.map, self.viewer)
-        elif(key == '5'):
-            pathFinder = Algorithm.Greedy(self.map, self.viewer)
+        if(keypressed == '1'):
+            self.pathFinder = Algorithm.AStar(self.map, self.viewer)
+            self.chosenAlgo = 'AStar'
+        elif(keypressed == '2'):
+            self.pathFinder = Algorithm.Dijkstra(self.map, self.viewer)
+            self.chosenAlgo = 'Djikstra'
+        elif(keypressed == '3'):
+            self.pathFinder = Algorithm.BFS(self.map, self.viewer)
+            self.chosenAlgo = 'BFS'
+        elif(keypressed == '4'):
+            self.pathFinder = Algorithm.DFS(self.map, self.viewer)
+            self.chosenAlgo = 'DFS'
+        elif(keypressed == '5'):
+            self.pathFinder = Algorithm.Greedy(self.map, self.viewer)
+            self.chosenAlgo = 'Guloso'
             
-        path = pathFinder.findPath((startPos.x, startPos.y), (targetPos.x, targetPos.y))
+        path = self.pathFinder.findPath((startPos.x, startPos.y), (targetPos.x, targetPos.y))
         #print(path)
 
         if (not len(path)):
@@ -67,7 +73,7 @@ class ViewModel():
         self.makeFood() 
         self.viewer.reset()
         self.map.resetVisited()
-        #self.makeFollower(self.vehicle.position, self.food.position)        
+        self.makeFollower(self.vehicle.position, self.food.position, self.newkey)        
         self.frmCount = 0
     
     def updateScore(self):
@@ -76,45 +82,36 @@ class ViewModel():
         
     def update(self):
         
-        if(keyPressed and not self.chosen):
-            self.enteredOnce = True
+        if(keyPressed):
             if(key == '1'):
-                self.makeFollower(self.vehicle.position, self.food.position,'1')
-                self.chosen = True
+                self.newkey = '1'
             elif(key == '2'):
-                self.makeFollower(self.vehicle.position, self.food.position,'2')
-                self.chosen = True
+                self.newkey = '2'
             elif(key == '3'):
-                self.makeFollower(self.vehicle.position, self.food.position,'3')
-                self.chosen = True
+                self.newkey = '3'
             elif(key == '4'):
-                self.makeFollower(self.vehicle.position, self.food.position,'4')
-                self.chosen = True
+                self.newkey = '4'
             elif(key == '5'):
-                self.makeFollower(self.vehicle.position, self.food.position,'5')
-                self.chosen = True
+                self.newkey = '5'
             
-        if(self.enteredOnce):
-            self.frmCount += 1
-            if not self.viewer.finished:
-                if self.frmCount >= self.waitFrames:
-                    self.viewer.paintIteratively()
-                    self.frmCount = 0        
+        self.frmCount += 1
+        if not self.viewer.finished:
+            if self.frmCount >= self.waitFrames:
+                self.viewer.paintIteratively()
+                self.frmCount = 0        
+        else:
+            if self.follower.didFinish():
+                self.collectFood()
             else:
-                if self.follower.didFinish():
-                    self.collectFood()
-                    self.chosen = False
-                    self.enteredOnce = False
-                else:
-                    target = self.follower.getTarget()
-                    weight = self.map.getTile(self.follower.getTile())
-                    if self.isVehicleCloseEnoughToTarget(target):
-                        self.follower.arrive()
-                
-                    self.vehicle.arrive(target)
-                    self.vehicle.update(weight)
-                
-            self.display()
+                target = self.follower.getTarget()
+                weight = self.map.getTile(self.follower.getTile())
+                if self.isVehicleCloseEnoughToTarget(target):
+                    self.follower.arrive()
+            
+                self.vehicle.arrive(target)
+                self.vehicle.update(weight)
+            
+        self.display()
 
     def isVehicleCloseEnoughToTarget(self, target):
         return eucledean(self.vehicle.position, target) < (self.vehicle.r)

@@ -20,4 +20,5 @@ def draw():
     score = "Score: " + str(viewModel.count)
     text(score, 15, 25)
     textFont(font, 15)
-    text("Favor escolher um metodo de busca: 1: AStar, 2: Djikstra, 3: BFS, 4: DFS, 5: Guloso", 0, 637)
+    text("1: AStar, 2: Djikstra, 3: BFS, 4: DFS, 5: Guloso", 0, 637)
+    text("Atualmente a busca utiliza : " + viewModel.chosenAlgo, 465, 20)
