@@ -18,8 +18,12 @@ class XFS(object):
         down = (rowPos + 1, colPos)
         left = (rowPos, colPos - 1)
         right = (rowPos, colPos + 1)
+        diag_up_right = (rowPos + 1, colPos + 1)
+        diag_down_right = (rowPos - 1, colPos + 1)
+        diag_up_left = (rowPos + 1, colPos - 1)
+        diag_down_left = (rowPos - 1, colPos - 1)
 
-        return [up, right, down, left]
+        return [up, diag_up_right, right, diag_down_right, down, diag_down_left, left, diag_up_left]
 
     def isValidNeighbour(self, rowPos, colPos):
         # If tile is beyond the map
